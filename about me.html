@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Page 1</title>
+  
+  <style>
+    /* CSS for the page body */
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffc107, #17a2b8, #dc3545);
+      background-size: 400% 400%;
+      animation: gradientAnimation 15s ease infinite;
+    }
+  
+    /* CSS for the image container */
+    .image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      transition: opacity 0.5s ease; /* 添加過渡效果 */
+    }
+  
+    .image-container img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+      transform: scale(1);
+    }
+  
+    .image-container img:hover {
+      transform: scale(1.2);
+    }
+    
+    /* CSS for the sidebar navigation */
+    .sidebar {
+      height: 100vh;
+      width: 200px;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: transparent; /* 修改背景顏色為透明 */
+      padding-top: 20px;
+      transition: width 0.5s ease; /* 添加過渡效果 */
+    }
+    
+    .sidebar .menu-toggle {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+      cursor: pointer;
+      padding: 15px 30px; /* 新增這行以設定按鈕大小 */
+      font-size: 18px; /* 新增這行以設定按鈕字型大小 */
+      outline: none;
+      border: none;
+      border-radius: 10px;
+      transition: 0.5s;
+      background: #1e1e1e;
+      color: greenyellow;
+      box-shadow: 0 0 10px #363636, inset 0 0 10px #363636;
+    }
+    
+    .sidebar .menu-toggle:hover {
+      animation: a 0.5s 1 linear;
+    }
+    
+    .sidebar .menu-toggle .icon:before,
+    .sidebar .menu-toggle .icon:after {
+      content: "";
+      display: block;
+      width: 20px;
+      height: 5px;
+      background-color: #1f2937; /* 暗色按鈕顏色 */
+    }
+    
+    .sidebar .menu-toggle .icon:before {
+      transform: translateY(-5px);
+    }
+    
+    .sidebar .menu-toggle .icon:after {
+      transform: translateY(3px);
+    }
+    
+    .sidebar .menu-items {
+      display: none;
+      text-align: center; /* 新增這行以置中選單內容 */
+      padding: 10px 0; /* 新增這行以增加內容的上下間距 */
+    }
+
+    .sidebar .menu-items.open {
+      display: block;
+    }
+
+    .sidebar .menu-items a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: #000;
+    }
+    
+    .sidebar .menu-items a:hover {
+      background-color: #63e01b;
+    }
+    
+    .myCard {
+      background-color: transparent;
+      width: 380px;
+      height: 508px;
+      perspective: 1000px;
+      margin: auto; /* 將卡片置中 */
+    }
+
+    .title {
+      font-size: 1.5em;
+      font-weight: 900;
+      text-align: center;
+      margin: 0;
+    }
+
+    .innerCard {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .myCard:hover .innerCard {
+      transform: rotateY(180deg);
+    }
+
+    .frontSide,
+    .backSide {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 1rem;
+      color: white;
+      box-shadow: 0 0 0.3em rgba(255, 255, 255, 0.5);
+      font-weight: 700;
+    }
+
+    .frontSide,
+    .frontSide::before {
+      background: linear-gradient(43deg, rgb(65, 88, 208) 0%, rgb(200, 80, 192) 46%, rgb(255, 204, 112) 100%);
+    }
+
+    .backSide,
+    .backSide::before {
+      background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+    }
+
+    .backSide {
+      transform: rotateY(180deg);
+    }
+
+    .backSide h2.title {
+      font-size: 44px; /* 標題字體大小為 18 像素 */
+      }
+
+      .backSide p {
+      font-size: 32px; /* 段落字體大小為 14 像素 */
+      }
+
+      .backSide h1 {
+      font-size: 24px; /* 大標題字體大小為 24 像素 */
+    }
+    
+
+    .frontSide::before,
+    .backSide::before {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      content: '';
+      width: 110%;
+      height: 110%;
+      position: absolute;
+      z-index: -1;
+      border-radius: 1em;
+      filter: blur(20px);
+      animation: animate 5s linear infinite;
+    }
+
+    @keyframes animate {
+      0% {
+        opacity: 0.3;
+      }
+
+      80% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0.3;
+      }
+    }
+
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes a {
+      0% {
+        transform: scale(0.7, 1.3);
+      }
+
+      25% {
+        transform: scale(1.3, 0.7);
+      }
+
+      50% {
+        transform: scale(0.7, 1.3);
+      }
+
+      75% {
+        transform: scale(1.3, 0.7);
+      }
+
+      100% {
+        transform: scale(1, 1);
+      }
+    }
+  </style>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuToggle = document.querySelector('.menu-toggle');
+      const menuItems = document.querySelector('.menu-items');
+      
+      menuToggle.addEventListener('click', function() {
+        menuItems.classList.toggle('open');
+      });
+    });
+  </script>
+  
+</head>
+<body>
+  <div class="sidebar">
+    <div class="menu-toggle">
+      Menu
+    </div>
+    <div class="menu-items">
+      <a href="index.html">首頁</a>
+      <a href="photo.html">h5p圖片測驗</a>
+      <a href="video.html">h5p影片測驗</a>
+      <a href="project.html">課堂學習呈現</a>
+    </div>
+  </div>
+  
+  <div class="image-container">
+    <div class="myCard">
+      <div class="innerCard">
+        <div class="frontSide">
+          <h2 class="title"></h2>
+          <img src="https://media.discordapp.net/attachments/881023379442909204/1100461644036976740/F983B27A-EBE3-4A04-AA1C-03BF0AE073E9.jpg?width=351&height=468" alt="Your Image" style="width: 80%; height: 80%;">
+        </div>
+        <div class="backSide">
+          <h2 class="title">吳昀璟</h2>
+          <p>淡江教育科技學系</p>
+          <h1>興趣:探索並發現自己還不會是事物</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
